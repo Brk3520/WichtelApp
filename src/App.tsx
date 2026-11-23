@@ -390,7 +390,6 @@ function App() {
           </div>
           <div className="welcome-bottom">
             <span><Icon name="snowflake" size={16} /> Das Wichtelgeheimnis bleibt gewahrt</span>
-            <span className="welcome-date">Frohe Vorfreude!</span>
           </div>
         </section>
 

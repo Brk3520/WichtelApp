@@ -2,49 +2,88 @@
 
 :root {
   font-family: 'DM Sans', 'Segoe UI', sans-serif;
-  color: #33392f;
-  background: #f8f7f1;
+  color: #38252a;
+  background: #29131c;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: light;
 
-  --pine: #1d503b;
-  --berry: #a34a47;
-  --ink: #33392f;
-  --muted: #8f8c80;
-  --line: #e9e7de;
-  --paper: #fffefa;
+  --pine: #245c43;
+  --berry: #a52c46;
+  --ink: #38252a;
+  --muted: #82736b;
+  --line: #cfb99a;
+  --paper: #f3e6cb;
   --serif: 'Playfair Display', Georgia, serif;
-
-  font-optical-sizing: auto;
+  --gold: #e8c77d;
+  --night: #29131c;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  min-width: 320px;
+  min-height: 100%;
+  background: var(--night);
+}
+
 body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 4% 5%, #ad304a 0, transparent 41%),
+    radial-gradient(ellipse at 91% 23%, #80283e9c 0, transparent 35%),
+    radial-gradient(ellipse at 61% 100%, #24553e9c 0, transparent 39%),
+    linear-gradient(140deg, #26121d 0%, #461725 53%, #17231e 100%);
+  background-attachment: fixed;
+}
+
+body::before {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  opacity: .35;
+  background-image:
+    radial-gradient(1px 1px at 8% 15%, #fff 98%, transparent),
+    radial-gradient(1px 1px at 74% 8%, #fff 98%, transparent),
+    radial-gradient(1px 1px at 93% 39%, #fff 98%, transparent),
+    radial-gradient(1px 1px at 22% 61%, #fff 98%, transparent),
+    radial-gradient(1px 1px at 66% 72%, #fff 98%, transparent),
+    radial-gradient(1px 1px at 43% 92%, #fff 98%, transparent);
+  background-size: 340px 310px;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
 }
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
-select:focus-visible {
-  outline: 2px solid #61866b;
-  outline-offset: 2px;
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #a93c4d;
+  outline-offset: 3px;
 }
 
 ::selection {
-  color: #fff;
-  background: #477458;
+  color: #fff5dd;
+  background: #92324a;
 }
