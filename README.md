@@ -1,75 +1,36 @@
-# React + TypeScript + Vite
+# Wichtelwerkstatt
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Eine weihnachtliche, mobiloptimierte React-App für Klassen-Wichtelrunden. Klassen, Schüler:innen und Auslosungen werden in Firebase gespeichert. Jede Person schenkt genau einmal und bekommt genau einmal ein Geschenk – auch bei einer ungeraden Teilnehmerzahl.
 
-Currently, two official plugins are available:
+## Starten
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Für den Produktionsbuild:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```sh
+npm run build
 ```
+
+## Firebase
+
+Die Firebase-Projektkonfiguration befindet sich in `utils/firebase.ts`. Cloud Firestore muss aktiviert sein. Die App verwendet:
+
+- `classes`: Klassenname und Erstellungsdatum; `4bWI` wird beim ersten Start angelegt
+- `students`: Vorname, Nachname, Anzeigename und Klassenzugehörigkeit
+- `draws`: eine aktuelle Auslosung je Klasse mit den Feldern `classId`, `assignments` und `createdAt`
+
+Legacy-Schülerdokumente ohne `classId` werden weiterhin der Startklasse `4bWI` zugeordnet. Neue Klassen erhalten jeweils eine eigene Namensliste und Ziehung; ein Klassenwechsel entfernt keine Daten. Die aktuelle Ziehung kann zurückgesetzt werden, um Teilnehmende zu ändern und neu auszulosen.
+
+Vor- und Nachnamen sind getrennte Felder: erlaubt sind Buchstaben, Leerzeichen, Bindestriche und Apostrophe; jede Namenshälfte darf höchstens 32 Zeichen haben. Der Anfangsbuchstabe wird automatisch großgeschrieben. Für den Mehrfachimport gilt eine Person pro Zeile: `Vorname Nachname` oder `Vorname;Nachname`.
+
+Die App benötigt Firestore-Lese- und Schreibzugriff. Da derzeit keine Anmeldung verwendet wird, sollten für echte Schülerdaten keine öffentlichen Lese-/Schreibregeln eingesetzt werden; ergänze vor einem produktiven Einsatz eine geeignete Authentifizierung und sichere Regeln.
+
+## Aufbau
+
+- `src/components/`: Schülerverwaltung, Klassenwechsel, Teilnehmendenauswahl, Auslosung und Validierung
+- `src/App.tsx`: Firebase-Abonnements und Ablauf der Wichtelrunde
+- `utils/firebase.ts`: Firebase- und Firestore-Initialisierung
